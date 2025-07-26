@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduBridge 🌸 | Learning That Feels Like Magic</title>
+  <!-- Ultra-Premium Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (Smooth Icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- GSAP (The Animation GOD) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+  <!-- Custom CSS (Handcrafted) -->
+  <style>
+    :root {
+      /* Ultra-Premium Color Palette */
+      --primary: #6a11cb;
+      --secondary: #2575fc;
+      --accent: #ff4d4d;
+      --light: #f8f9fa;
+      --dark: #1a1a2e;
+      --bloom-1: #ff9a8b;
+      --bloom-2: #ff6b95;
+      --bloom-3: #a18cd1;
+      --bloom-4: #84fab0;
+      --ease-silk: cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    /* RESET (Because Defaults Are Ugly) */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, var(--light), #f0f4ff);
+      color: var(--dark);
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      transition: background 0.8s var(--ease-silk);
+    }
+
+    /* 🌸 Floating Flowers (Next-Level Animation) */
+    .flower {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+      will-change: transform;
+    }
+
+    .flower svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* 💎 Main Container (Glass Morphism) */
+    .loading-container {
+      position: relative;
+      width: 90%;
+      max-width: 800px;
+      padding: 3rem;
+      text-align: center;
+      opacity: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 24px;
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.1),
+        inset 0 -2px 10px rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(12px);
+      transform-style: preserve-3d;
+      transition: all 0.8s var(--ease-silk);
+    }
+
+    /* 🌀 Logo (Hypnotic Spiral) */
+    .logo {
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 2rem;
+      position: relative;
+      perspective: 1000px;
+    }
+
+    .logo-circle {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 4px solid transparent;
+      border-top-color: var(--primary);
+      animation: spin 4s linear infinite;
+      box-shadow: 0 0 25px rgba(106, 17, 203, 0.2);
+      transform-style: preserve-3d;
+    }
+
+    .logo-circle:nth-child(2) {
+      border-top-color: var(--secondary);
+      animation-delay: 0.5s;
+      width: 80%;
+      height: 80%;
+      top: 10%;
+      left: 10%;
+    }
+
+    .logo-circle:nth-child(3) {
+      border-top-color: var(--accent);
+      animation-delay: 1s;
+      width: 60%;
+      height: 60%;
+      top: 20%;
+      left: 20%;
+    }
+
+    .logo-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 4rem;
+      color: var(--primary);
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: all 0.6s var(--ease-silk);
+    }
+
+    /* ✨ Typography (Pure Elegance) */
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(3rem, 7vw, 5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transform: translateZ(20px);
+    }
+
+    .tagline {
+      font-size: clamp(1.3rem, 3.5vw, 2rem);
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+      opacity: 0.9;
+      line-height: 1.5;
+      color: var(--dark);
+      transform: translateZ(10px);
+    }
+
+    /* 📊 Progress Bar (Liquid Smooth) */
+    .progress-container {
+      width: 100%;
+      height: 10px;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 10px;
+      margin: 3rem auto;
+      overflow: hidden;
+      position: relative;
+      transform: translateZ(5px);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 10px;
+      position: relative;
+      transition: width 0.8s var(--ease-silk);
+    }
+
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.7) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      animation: shimmer 3s infinite;
+      transform: translateX(-100%);
+    }
+
+    /* 🎚️ Sensory Elements (Interactive & Alive) */
+    .sensory-elements {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 4rem;
+      flex-wrap: wrap;
+      transform: translateZ(15px);
+    }
+
+    .sensory-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      min-width: 120px;
+      cursor: pointer;
+      transition: all 0.6s var(--ease-silk);
+    }
+
+    .sensory-item:hover {
+      transform: translateY(-10px) scale(1.1);
+    }
+
+    .sensory-icon-container {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 10px 25px rgba(106, 17, 203, 0.3);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.6s var(--ease-silk);
+    }
+
+    .sensory-icon-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: rotate(30deg);
+      animation: shine 4s infinite;
+    }
+
+    .sensory-icon {
+      font-size: 2.5rem;
+      color: white;
+      position: relative;
+      z-index: 1;
+      transition: all 0.6s var(--ease-silk);
+    }
+
+    .sensory-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--dark);
+      opacity: 0.9;
+      transition: all 0.6s var(--ease-silk);
+    }
+
+    /* 🎛️ Accessibility Controls (Pro-Level UX) */
+    .accessibility-panel {
+      position: fixed;
+      bottom: 2.5rem;
+      right: 2.5rem;
+      display: flex;
+      gap: 1.5rem;
+      z-index: 100;
+      transform: translateZ(30px);
+    }
+
+    .a11y-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(106, 17, 203, 0.3);
+      transition: all 0.6s var(--ease-silk);
+    }
+
+    .a11y-btn:hover {
+      transform: translateY(-8px) scale(1.1);
+      box-shadow: 0 15px 30px rgba(106, 17, 203, 0.4);
+    }
+
+    .a11y-btn i {
+      font-size: 1.8rem;
+    }
+
+    /* 🌀 Animations (Silky Smooth) */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(5deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.1); opacity: 1; }
+    }
+
+    /* 🌙 Dark Mode (Automatic & Sleek) */
+    body[data-theme="dark"] {
+      background: linear-gradient(135deg, #0f0c29, #302b63);
+      color: #f8f9fa;
+    }
+
+    body[data-theme="dark"] .loading-container {
+      background: rgba(26, 26, 46, 0.9);
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.3),
+        inset 0 -2px 10px rgba(255, 255, 255, 0.1);
+    }
+
+    body[data-theme="dark"] .tagline,
+    body[data-theme="dark"] .sensory-text {
+      color: #f8f9fa;
+    }
+
+    /* 📱 Mobile Responsiveness (Flawless) */
+    @media (max-width: 768px) {
+      .loading-container {
+        padding: 2rem 1.5rem;
+        width: 95%;
+      }
+
+      .logo {
+        width: 120px;
+        height: 120px;
+      }
+
+      .logo-icon {
+        font-size: 3rem;
+      }
+
+      .sensory-elements {
+        gap: 1.5rem;
+      }
+
+      .sensory-item {
+        min-width: 100px;
+      }
+
+      .sensory-icon-container {
+        width: 60px;
+        height: 60px;
+      }
+
+      .sensory-icon {
+        font-size: 2rem;
+      }
+
+      .accessibility-panel {
+        bottom: 1.5rem;
+        right: 1.5rem;
+      }
+
+      .a11y-btn {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 🌸 Floating Flowers (Dynamic & Alive) -->
+  <div id="flowers-container"></div>
+
+  <!-- 💎 Main Content (Center Stage) -->
+  <div class="loading-container">
+    <div class="logo">
+      <div class="logo-circle"></div>
+      <div class="logo-circle"></div>
+      <div class="logo-circle"></div>
+      <i class="logo-icon fas fa-seedling"></i>
+    </div>
+
+    <h1>EduBridge</h1>
+    <p class="tagline">Learning that <span class="highlight">listens</span>, <span class="highlight">sees</span>, and <span class="highlight">feels</span>.</p>
+
+    <div class="progress-container">
+      <div class="progress-bar"></div>
+    </div>
+
+    <p class="loading-message">Cultivating your accessible learning garden...</p>
+
+    <div class="sensory-elements">
+      <div class="sensory-item" id="listen">
+        <div class="sensory-icon-container">
+          <i class="sensory-icon fas fa-assistive-listening-systems"></i>
+        </div>
+        <span class="sensory-text">Listens</span>
+      </div>
+      <div class="sensory-item" id="see">
+        <div class="sensory-icon-container">
+          <i class="sensory-icon fas fa-eye"></i>
+        </div>
+        <span class="sensory-text">Sees</span>
+      </div>
+      <div class="sensory-item" id="feel">
+        <div class="sensory-icon-container">
+          <i class="sensory-icon fas fa-hands-holding-heart"></i>
+        </div>
+        <span class="sensory-text">Feels</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🎛️ Accessibility Panel (Pro UX) -->
+  <div class="accessibility-panel">
+    <button class="a11y-btn" id="contrast-btn" aria-label="Toggle high contrast">
+      <i class="fas fa-adjust"></i>
+    </button>
+    <button class="a11y-btn" id="text-size-btn" aria-label="Increase text size">
+      <i class="fas fa-text-height"></i>
+    </button>
+    <button class="a11y-btn" id="motion-btn" aria-label="Reduce motion">
+      <i class="fas fa-running"></i>
+    </button>
+    <button class="a11y-btn" id="theme-btn" aria-label="Toggle dark mode">
+      <i class="fas fa-moon"></i>
+    </button>
+  </div>
+
+  <!-- 🚀 GSAP Animation Mastery -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 🌸 Create Dynamic Flowers (Next-Level Animation)
+      const flowersContainer = document.getElementById('flowers-container');
+      const flowerColors = ['var(--bloom-1)', 'var(--bloom-2)', 'var(--bloom-3)', 'var(--bloom-4)'];
+      const flowerShapes = ['🌸', '🌺', '🌼', '🌷', '💮', '🏵️'];
+
+      for (let i = 0; i < 20; i++) {
+        const flower = document.createElement('div');
+        flower.className = 'flower';
+
+        const size = Math.random() * 80 + 40;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 5;
+        const duration = Math.random() * 15 + 10;
+        const rotation = Math.random() * 360;
+        const color = flowerColors[Math.floor(Math.random() * flowerColors.length)];
+        const shape = flowerShapes[Math.floor(Math.random() * flowerShapes.length)];
+
+        flower.innerHTML = `
+          <svg viewBox="0 0 100 100" width="${size}" height="${size}">
+            <text x="50" y="60" font-size="80" text-anchor="middle" fill="${color}" opacity="0.9">
+              ${shape}
+            </text>
+          </svg>
+        `;
+
+        flower.style.left = `${posX}%`;
+        flower.style.top = `${posY}%`;
+        flower.style.transform = `rotate(${rotation}deg)`;
+        flower.style.opacity = '0';
+
+        flowersContainer.appendChild(flower);
+
+        // 🌊 Animate Flower Floating (GSAP Physics)
+        gsap.to(flower, {
+          opacity: 0.8,
+          duration: 3,
+          delay: delay,
+          ease: "power1.out"
+        });
+
+        gsap.to(flower, {
+          y: `+=${(Math.random() * 200) - 100}`,
+          x: `+=${(Math.random() * 200) - 100}`,
+          rotation: `+=${(Math.random() * 180) - 90}`,
+          duration: duration,
+          delay: delay,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      }
+
+      // 🎬 Master Animation Timeline (Cinematic Experience)
+      const tl = gsap.timeline({
+        defaults: { ease: "expo.out", duration: 1.5 }
+      });
+
+      // 🌟 Initial Reveal (Grand Entrance)
+      tl.to('.loading-container', {
+        opacity: 1,
+        duration: 2,
+        ease: "elastic.out(1, 0.5)"
+      })
+      .from('.logo', {
+        y: -100,
+        opacity: 0,
+        duration: 1.8,
+        ease: "back.out(1.7)"
+      }, 0.5)
+      .from('h1', {
+        y: 60,
+        opacity: 0,
+        duration: 1.8,
+        ease: "elastic.out(1, 0.5)"
+      }, 0.8)
+      .from('.tagline', {
+        y: 40,
+        opacity: 0,
+        duration: 1.5,
+        onComplete: () => {
+          // ✨ Animate Tagline Words Sequentially
+          gsap.to('.highlight', {
+            y: -10,
+            duration: 0.8,
+            stagger: 0.4,
+            repeat: 1,
+            yoyo: true,
+            ease: "power1.inOut"
+          });
+        }
+      }, 1.2)
+      .from('.progress-container', {
+        width: 0,
+        opacity: 0,
+        duration: 1.5
+      }, 1.5)
+      .to('.progress-bar', {
+        width: "100%",
+        duration: 5,
+        ease: "none",
+        onUpdate: function() {
+          const progress = Math.round(this.progress() * 100);
+          document.querySelector('.loading-message').textContent = getLoadingMessage(progress);
+        }
+      }, 2);
+
+      // 👐 Sensory Elements Animation (Interactive)
+      tl.from('#listen', {
+        y: 50,
+        opacity: 0,
+        duration: 1.5,
+        ease: "back.out(1.7)",
+        onComplete: () => animateSensoryIcon('#listen')
+      }, 2.5);
+
+      tl.from('#see', {
+        y: 50,
+        opacity: 0,
+        duration: 1.5,
+        ease: "back.out(1.7)",
+        onComplete: () => animateSensoryIcon('#see')
+      }, 2.8);
+
+      tl.from('#feel', {
+        y: 50,
+        opacity: 0,
+        duration: 1.5,
+        ease: "back.out(1.7)",
+        onComplete: () => animateSensoryIcon('#feel')
+      }, 3.1);
+
+      // 🚪 Final Transition (Smooth Exit)
+      tl.to('.loading-container', {
+        scale: 0.95,
+        opacity: 0,
+        duration: 2,
+        delay: 2,
+        ease: "power3.in",
+        onComplete: () => {
+          window.location.href = "/upload.html";
+        }
+      });
+
+      // 🔊 Accessibility Features (Pro-Level)
+      document.getElementById('contrast-btn').addEventListener('click', toggleContrast);
+      document.getElementById('text-size-btn').addEventListener('click', increaseTextSize);
+      document.getElementById('motion-btn').addEventListener('click', reduceMotion);
+      document.getElementById('theme-btn').addEventListener('click', toggleTheme);
+
+      // 🛠️ Helper Functions (Clean & Efficient)
+      function getLoadingMessage(progress) {
+        const messages = [
+          { threshold: 0, text: "Planting seeds of knowledge..." },
+          { threshold: 20, text: "Watering your learning garden..." },
+          { threshold: 40, text: "Growing accessibility features..." },
+          { threshold: 60, text: "Blooming interactive content..." },
+          { threshold: 80, text: "Almost ready to blossom..." },
+          { threshold: 95, text: "Your learning journey begins..." }
+        ];
+
+        return messages.reduce((acc, msg) => 
+          progress >= msg.threshold ? msg.text : acc, "");
+      }
+
+      function animateSensoryIcon(id) {
+        const icon = document.querySelector(`${id} .sensory-icon-container`);
+        gsap.to(icon, {
+          scale: 1.2,
+          duration: 0.8,
+          yoyo: true,
+          repeat: 1,
+          ease: "elastic.out(1, 0.5)"
+        });
+
+        // Continuous Gentle Pulse
+        gsap.to(icon, {
+          scale: 1.05,
+          duration: 3,
+          yoyo: true,
+          repeat: -1,
+          ease: "sine.inOut"
+        });
+      }
+
+      function toggleContrast() {
+        document.body.classList.toggle('high-contrast');
+        document.querySelector('.loading-container').classList.toggle('high-contrast');
+      }
+
+      function increaseTextSize() {
+        const html = document.documentElement;
+        const currentSize = parseFloat(getComputedStyle(html).fontSize);
+        html.style.fontSize = `${currentSize * 1.2}px`;
+      }
+
+      function reduceMotion() {
+        gsap.globalTimeline.timeScale(0.5);
+        document.body.classList.add('reduced-motion');
+      }
+
+      function toggleTheme() {
+        const currentTheme = document.body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.body.setAttribute('data-theme', newTheme);
+      }
+    });
+  </script>
+</body>
+</html>
